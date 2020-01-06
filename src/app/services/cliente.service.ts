@@ -3,6 +3,8 @@ import { CLIENTES } from '../components/clientes/clientes.json';
 import { Cliente } from '../components/clientes/cliente';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,9 @@ export class ClienteService {
   getClientes(): Observable<Cliente[]> { 
     
     /*se hace un cast portque devuelve un observable de cliente*/
-    return this.http.get<Cliente[]>(this.urlEndPoint);
+    return this.http.get(this.urlEndPoint).pipe(
+      map(response => response as Cliente[])
+    );
     //return of(CLIENTES); 
   } 
 }
