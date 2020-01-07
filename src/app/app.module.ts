@@ -8,17 +8,21 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ClientesComponent } from './components/clientes/clientes.component';
 import { ClienteService } from './services/cliente.service';
 import {HttpClientModule} from '@angular/common/http';
+import { FormComponent } from './components/clientes/form.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    ClientesComponent
+    ClientesComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     AppRoutingModule
   ],
   providers: [ClienteService],
