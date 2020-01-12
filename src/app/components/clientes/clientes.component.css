@@ -1,5 +1,10 @@
-.panel {
-    bottom: 0px;
-    padding: 0px;
-    margin: 4px;
+@media print and (max-width:690px) {
+    .panel {
+        table-layout: auto;
+    }
 }
+
+
+/*.tarjeta {
+    width: 700px;
+}*/

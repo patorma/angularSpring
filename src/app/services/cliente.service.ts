@@ -21,7 +21,7 @@ export class ClienteService {
     /*se hace un cast portque devuelve un observable de cliente*/
 
       return this.http.get<Cliente[]>(this.urlEndPoint);
-  } 
+  }
 
   create(cliente: Cliente): Observable<Cliente[]> {
     return this.http.post<Cliente[]>(this.urlEndPoint, cliente, {headers: this.httpHeaders});
@@ -36,6 +36,6 @@ export class ClienteService {
   }
 
   delete(id: number): Observable<Cliente> {
-    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`,{headers: this.httpHeaders});
+    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, {headers: this.httpHeaders});
   }
 }

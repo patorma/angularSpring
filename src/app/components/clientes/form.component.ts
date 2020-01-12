@@ -20,7 +20,7 @@ export class FormComponent implements OnInit {
   }
 
   cargarCliente(): void {
-    /*Recibe comom argumento los parametros en subscribe */
+    /*Recibe como argumento los parametros en subscribe */
     this.activatedRoute.params.subscribe(params => {
       let id = params['id']
       if(id){
