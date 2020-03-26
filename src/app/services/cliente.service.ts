@@ -22,7 +22,19 @@ export class ClienteService {
   getClientes(): Observable<Cliente[]> { 
     /*se hace un cast portque devuelve un observable de cliente*/
 
-      return this.http.get<Cliente[]>(this.urlEndPoint);
+      return this.http.get(this.urlEndPoint).pipe(
+        map(response => {
+
+         let clientes =  response as Cliente[];
+
+         // se usa el metodo map del arreglo clientes
+         // se modifica los valores internos o cada item del array
+         return clientes.map(cliente =>{
+           cliente.nombre = cliente.nombre.toUpperCase();
+           return cliente; // se retorna el cliente modificado
+         });
+        })
+      );
   }
 
   create(cliente: Cliente): Observable<Cliente> {
