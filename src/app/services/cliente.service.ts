@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable,LOCALE_ID ,Inject } from '@angular/core';
 import { CLIENTES } from '../components/clientes/clientes.json';
 import { Cliente } from '../components/clientes/cliente';
 import { Observable, of, throwError } from 'rxjs';
@@ -7,6 +7,7 @@ import { map, catchError } from 'rxjs/operators';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { formatDate, DatePipe } from '@angular/common';
+
 
 
 @Injectable({
@@ -18,7 +19,8 @@ export class ClienteService {
 
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   /*se inyecta httpClient*/
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(@Inject(LOCALE_ID) private locale: string,
+    private http: HttpClient, private router: Router) { }
 
   getClientes(): Observable<Cliente[]> { 
     /*se hace un cast portque devuelve un observable de cliente*/
@@ -32,8 +34,10 @@ export class ClienteService {
          // se modifica los valores internos o cada item del array
          return clientes.map(cliente =>{
            cliente.nombre = cliente.nombre.toUpperCase();
-           let datePipe = new DatePipe('en-US');
-           cliente.createAt = datePipe.transform(cliente.createAt,'EEEE dd, MMMM yyyy'); // formatDate(cliente.createAt,'dd-MM-yyyy', 'en-US');
+         
+           let datePipe = new DatePipe('es-CL');
+           cliente.createAt = datePipe.transform(cliente.createAt, 'EEEE dd, MMMM yyyy'); 
+           // formatDate(cliente.createAt,'dd-MM-yyyy', 'en-US');
            return cliente; // se retorna el cliente modificado
          })
         })
