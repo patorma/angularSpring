@@ -36,7 +36,7 @@ export class ClienteService {
            cliente.nombre = cliente.nombre.toUpperCase();
          
            let datePipe = new DatePipe('es-CL');
-           cliente.createAt = datePipe.transform(cliente.createAt, 'EEEE dd, MMMM yyyy'); 
+           //cliente.createAt = datePipe.transform(cliente.createAt, 'EEEE dd, MMMM yyyy'); 
            // formatDate(cliente.createAt,'dd-MM-yyyy', 'en-US');
            return cliente; // se retorna el cliente modificado
          })
