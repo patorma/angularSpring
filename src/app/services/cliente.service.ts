@@ -3,7 +3,7 @@ import { CLIENTES } from '../components/clientes/clientes.json';
 import { Cliente } from '../components/clientes/cliente';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { formatDate, DatePipe } from '@angular/common';
@@ -26,6 +26,18 @@ export class ClienteService {
     /*se hace un cast portque devuelve un observable de cliente*/
 
       return this.http.get(this.urlEndPoint).pipe(
+        tap(response =>{
+          // tomamos las respuesta y se la asignamos a la variable clientes
+          let clientes =  response as Cliente[];
+          console.log('ClienteService: tap 1')
+          clientes.forEach(cliente =>{
+            // se mostrara los datos de cada cliente
+              console.log(cliente.nombre);
+          }
+
+          )
+        }),
+        // se transforma a clientes
         map(response => {
 
          let clientes =  response as Cliente[];
@@ -33,6 +45,7 @@ export class ClienteService {
          // se usa el metodo map del arreglo clientes
          // se modifica los valores internos o cada item del array
          return clientes.map(cliente =>{
+           //pasa a mayuscula el nombre del cliente
            cliente.nombre = cliente.nombre.toUpperCase();
          
            let datePipe = new DatePipe('es-CL');
@@ -40,6 +53,15 @@ export class ClienteService {
            // formatDate(cliente.createAt,'dd-MM-yyyy', 'en-US');
            return cliente; // se retorna el cliente modificado
          })
+        }),
+        tap(response =>{
+          console.log('ClienteService: tap 2')
+          response.forEach(cliente =>{
+            // se mostrara los datos de cada cliente
+              console.log(cliente.nombre);
+          }
+
+          )
         })
       );
   }

@@ -3,6 +3,7 @@ import { Cliente } from './cliente';
 import { ClienteService } from '../../services/cliente.service';
 import {  Router,ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
+import { tap } from 'rxjs/operators';
 
 
 @Component({
@@ -22,10 +23,10 @@ export class ClientesComponent implements OnInit {
 
   ngOnInit() {
     /*clientes es un observador va hacer observado por observadores, aca se subscribe , y en el metodo subscribe el observador seria asignar el atributo clientes el valor que se recibe del clienteservice, que seria el listado de clientes con los cambios*/
-     this.clienteService.getClientes().subscribe(
-       /*funcion anonima como observador que se encarga de asignar el valor al cliente component*/
-       /*nuestro observador, actualiza estado de clientes*/
-       clientes => this.clientes = clientes
+     this.clienteService.getClientes().pipe(
+        tap(clientes => this.clientes = clientes)// se asigna el valor de this.clientes a clientes
+     ).subscribe(
+      
      );
   }
 
