@@ -22,41 +22,39 @@ export class ClienteService {
   constructor(@Inject(LOCALE_ID) private locale: string,
     private http: HttpClient, private router: Router) { }
 
-  getClientes(): Observable<Cliente[]> { 
+  getClientes(page: number): Observable<any> { 
     /*se hace un cast portque devuelve un observable de cliente*/
 
-      return this.http.get(this.urlEndPoint).pipe(
-        tap(response =>{
+      return this.http.get(`${this.urlEndPoint}/page/${page}`).pipe(
+        tap((response: any) =>{
           // tomamos las respuesta y se la asignamos a la variable clientes
-          let clientes =  response as Cliente[];
-          console.log('ClienteService: tap 1')
-          clientes.forEach(cliente =>{
+         
+          console.log('ClienteService: tap 1');
+          (response.content as Cliente[]).forEach(cliente =>{
             // se mostrara los datos de cada cliente
               console.log(cliente.nombre);
-          }
-
-          )
+          });
         }),
         // se transforma a clientes
-        map(response => {
+        map((response: any) => {
 
-         let clientes =  response as Cliente[];
-
+         
          // se usa el metodo map del arreglo clientes
          // se modifica los valores internos o cada item del array
-         return clientes.map(cliente =>{
+         (response.content as Cliente[]).map(cliente =>{
            //pasa a mayuscula el nombre del cliente
            cliente.nombre = cliente.nombre.toUpperCase();
          
-           let datePipe = new DatePipe('es-CL');
+           //let datePipe = new DatePipe('es-CL');
            //cliente.createAt = datePipe.transform(cliente.createAt, 'EEEE dd, MMMM yyyy'); 
            // formatDate(cliente.createAt,'dd-MM-yyyy', 'en-US');
            return cliente; // se retorna el cliente modificado
-         })
+         });
+         return response;
         }),
         tap(response =>{
-          console.log('ClienteService: tap 2')
-          response.forEach(cliente =>{
+          console.log('ClienteService: tap 2');
+          (response.content as Cliente[]).forEach(cliente =>{
             // se mostrara los datos de cada cliente
               console.log(cliente.nombre);
           }

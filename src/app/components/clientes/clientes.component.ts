@@ -22,12 +22,20 @@ export class ClientesComponent implements OnInit {
   constructor(private clienteService: ClienteService, private router: Router ,private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    /*clientes es un observador va hacer observado por observadores, aca se subscribe , y en el metodo subscribe el observador seria asignar el atributo clientes el valor que se recibe del clienteservice, que seria el listado de clientes con los cambios*/
-     this.clienteService.getClientes().pipe(
-        tap(clientes => this.clientes = clientes)// se asigna el valor de this.clientes a clientes
-     ).subscribe(
-      
-     );
+
+    let page = 0;
+   // clientes es un observador va hacer observado por observadores, aca se subscribe , 
+   // y en el metodo subscribe el observador seria asignar el atributo clientes el valor 
+   // que se recibe del clienteservice, que seria el listado de clientes con los cambios
+    this.clienteService.getClientes(page)
+     .pipe(
+        tap(response=> {
+          console.log('ClientesComponent: tap 3');
+          (response.content as Cliente[]).forEach(cliente =>{
+             console.log(cliente.nombre);
+          });
+        })         //  response.content lista de objeto clientes y se asigna al atributo cliente
+     ).subscribe(response => this.clientes = response.content as Cliente[]);
   }
 
   public delete(cliente: Cliente): void {
