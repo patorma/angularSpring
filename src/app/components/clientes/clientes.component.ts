@@ -23,19 +23,28 @@ export class ClientesComponent implements OnInit {
 
   ngOnInit() {
 
-    let page = 0;
+   
+    // paramMap se encarga de observar entonces se subscribe
+    // esto se encarga de subscribirse a un observador
+    this.activatedRoute.paramMap.subscribe( params =>{ // el operador suma convierte el string en number
+      let page: number = +params.get('page');
+      if(!page){
+        page = 0;
+      }
    // clientes es un observador va hacer observado por observadores, aca se subscribe , 
    // y en el metodo subscribe el observador seria asignar el atributo clientes el valor 
    // que se recibe del clienteservice, que seria el listado de clientes con los cambios
-    this.clienteService.getClientes(page)
+      this.clienteService.getClientes(page)
      .pipe(
         tap(response=> {
           console.log('ClientesComponent: tap 3');
           (response.content as Cliente[]).forEach(cliente =>{
              console.log(cliente.nombre);
-          });
+          }); 
         })         //  response.content lista de objeto clientes y se asigna al atributo cliente
      ).subscribe(response => this.clientes = response.content as Cliente[]);
+      }
+    );
   }
 
   public delete(cliente: Cliente): void {
