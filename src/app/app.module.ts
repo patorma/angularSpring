@@ -5,16 +5,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+
+// modulo cliente
 import { ClientesComponent } from './components/clientes/clientes.component';
+import { FormComponent } from './components/clientes/form.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
+
 import { ClienteService } from './services/cliente.service';
 import {HttpClientModule} from '@angular/common/http';
-import { FormComponent } from './components/clientes/form.component';
+
 import { FormsModule } from '@angular/forms';
 import { ClienteBuscadoComponent } from './components/cliente-buscado/cliente-buscado.component';
 //import es from '@angular/common/locales/es';
 import localeEsAr from '@angular/common/locales/es-AR';
 import { registerLocaleData } from '@angular/common';
 import localeES from '@angular/common/locales/es-CL';
+
 registerLocaleData(localeES, 'es-CL');
 //registerLocaleData(localeEsAr, 'es-AR');
 @NgModule({
@@ -24,7 +30,8 @@ registerLocaleData(localeES, 'es-CL');
     FooterComponent,
     ClientesComponent,
     FormComponent,
-    ClienteBuscadoComponent
+    ClienteBuscadoComponent,
+    PaginatorComponent
   ],
   imports: [
     BrowserModule,

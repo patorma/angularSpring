@@ -15,7 +15,7 @@ export class ClientesComponent implements OnInit {
 
 
   clientes: Cliente[];
-  
+  paginador: any;
 
 
   /* Inyección de dependencias*/
@@ -42,7 +42,10 @@ export class ClientesComponent implements OnInit {
              console.log(cliente.nombre);
           }); 
         })         //  response.content lista de objeto clientes y se asigna al atributo cliente
-     ).subscribe(response => this.clientes = response.content as Cliente[]);
+     ).subscribe(response => {
+       this.clientes = response.content as Cliente[];
+       this.paginador = response;
+      });
       }
     );
   }
