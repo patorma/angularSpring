@@ -19,7 +19,7 @@ export class PaginatorComponent implements OnInit {
     // totalPages(este atributo contiene el total de paginas 
     // que existe dentro de los atributos del  paginador) 
     // se llena este arreglo con un valor por defecto
-    this.paginas = new Array(this.paginador.totalPages).fill(0).map((_valor,indice) => indice + 1); 
+    this.paginas = new Array(this.paginador.totalPages).fill(0).map((_valor,indice) => indice + 1);
   }
 
 }
