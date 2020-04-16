@@ -1,4 +1,4 @@
-import { Component, OnInit , Input, OnChanges} from '@angular/core';
+import { Component, OnInit , Input, OnChanges, SimpleChanges} from '@angular/core';
 
 @Component({
   selector: 'paginator-nav',
@@ -17,12 +17,26 @@ export class PaginatorComponent implements OnInit, OnChanges {
    
   constructor() { }
 // ngOnInit() se ejecuta solo una vez
+// se calculara el rango para la primera pagina solamente 
+// en ngOnChanges para las subsiguientes
   ngOnInit(): void {
-  
+    this.initPaginator();
+  }
+  // a través de los changes podemos obtener el cambio del objeto @input del paginador(variable)
+  ngOnChanges(changes: SimpleChanges){
+                              // obtenemos cambios del paginador 
+    let paginadorActualizado = changes['paginador'];
+    // preguntamos si paginadorActualizado tiene un valor anterior
+    // solamente si tiene un estado anterior, haya cambiado
+    if(paginadorActualizado.previousValue){
+      // ahi invocamos el:
+      this.initPaginator();
+    }
+
   }
 
-  ngOnChanges(){
-      // se calcula el desde y hata para calcular el rango a mostrar en el paginador
+  private initPaginator(): void {
+       // se calcula el desde y hata para calcular el rango a mostrar en el paginador
     // en desde habran dos calculos
     // primer parametro de desde el maximo entre  y nuestra pagina actual menos 4 y segundo parametro totaldepaginas-5
     // min [max (el minimo que podria tener el desde  y la pagina actual-4)]
@@ -40,7 +54,6 @@ export class PaginatorComponent implements OnInit, OnChanges {
     // se llena este arreglo con un valor por defecto
     this.paginas = new Array(this.paginador.totalPages).fill(0).map((_valor,indice) => indice + 1);
   }
-
   }
 
 }
