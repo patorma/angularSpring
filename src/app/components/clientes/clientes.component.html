@@ -3,7 +3,9 @@
     <div class="card-body text-primary">
         <h5 class="card-title">Listado de clientes</h5>
         <div class="my-2 text-left">
-            <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/clientes/form']">Crear Cliente</button>
+            <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/clientes/form']">
+        Crear Cliente
+      </button>
         </div>
         <div *ngIf="clientes?.length == 0" class="alert alert-info">
             No hay registros en la base de datos!
@@ -26,20 +28,28 @@
             </thead>
             <tbody>
                 <tr *ngFor="let cliente of clientes">
-                    <td>{{cliente.id}}</td>
-                    <td>{{cliente.nombre}}</td>
-                    <td>{{cliente.apellido | uppercase}}</td>
-                    <td>{{cliente.email}}</td>
-                    <td>{{cliente.createAt | date: 'EEEE dd, MMMM yyyy'}}</td>
                     <td>
-                        <button type="button" name="button" [routerLink]="['/clientes/form', cliente.id]" class="btn btn-primary">editar</button>
+                        <button type="button" [routerLink]="['/clientes/ver', cliente.id]" class="btn btn-success">
+              {{ cliente.id }}
+            </button>
                     </td>
-                    <td><button type="button" name="eliminar" class="btn btn-danger" (click)='delete(cliente)'>eliminar</button></td>
+                    <td>{{ cliente.nombre }}</td>
+                    <td>{{ cliente.apellido | uppercase }}</td>
+                    <td>{{ cliente.email }}</td>
+                    <td>{{ cliente.createAt | date: "EEEE dd, MMMM yyyy" }}</td>
+                    <td>
+                        <button type="button" name="editar" [routerLink]="['/clientes/form', cliente.id]" class="btn btn-primary">
+              editar
+            </button>
+                    </td>
+                    <td>
+                        <button type="button" name="eliminar" class="btn btn-danger" (click)="delete(cliente)">
+              eliminar
+            </button>
+                    </td>
                 </tr>
             </tbody>
-
         </table>
         <paginator-nav *ngIf="paginador" [paginador]="paginador"></paginator-nav>
-
     </div>
 </div>

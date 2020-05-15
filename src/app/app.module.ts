@@ -25,6 +25,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 // maneja fechas
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
+import { DetalleComponent } from "./components/clientes/detalle/detalle.component";
 
 registerLocaleData(localeES, "es-CL");
 //registerLocaleData(localeEsAr, 'es-AR');
@@ -37,6 +38,7 @@ registerLocaleData(localeES, "es-CL");
     FormComponent,
     ClienteBuscadoComponent,
     PaginatorComponent,
+    DetalleComponent,
   ],
   imports: [
     BrowserModule,
