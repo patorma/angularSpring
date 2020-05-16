@@ -1,21 +1,45 @@
 <div class="card bg-dark text-white my-4">
     <div class="card-header">{{ titulo }}</div>
     <div class="card-body">
-        <div class="input-group">
-            <div class="custom-file">
-                <!-- a traves de $event accdemos al archivo que estamos enviando -->
-                <input (change)="seleccionarFoto($event)" type="file" class="custom-file-input" id="inputGroupFile04" />
-                <label class="custom-file-label" for="inputGroupFile04">Subir foto</label
-        >
-      </div>
-      <div class="input-group-append">
-        <button
-          (click)="subirFoto()"
-          class="btn btn-outline-secondary"
-          type="button"
-        >
-          Button
-        </button>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <!-- detalle de cliente,mb margen bajo  -->
+                    <ul *ngIf="cliente" class="list-group text-dark mb-3">
+                        <li class="list-group-item active">{{ cliente.nombre }}</li>
+                        <li class="list-group-item">{{ cliente.apellido }}</li>
+                        <li class="list-group-item">{{ cliente.email }}</li>
+                        <li class="list-group-item">
+                            {{ cliente.createAt | date: "fullDate" }}
+                        </li>
+                    </ul>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <!-- a traves de $event accdemos al archivo que estamos enviando -->
+                            <input (change)="seleccionarFoto($event)" type="file" class="custom-file-input" id="inputGroupFile04" />
+                            <label class="custom-file-label" for="inputGroupFile04">Seleccionar foto</label
+              >
+            </div>
+            <div class="input-group-append">
+              <button
+                (click)="subirFoto()"
+                class="btn btn-outline-secondary"
+                type="button"
+              >
+                Subir
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm">
+          <!-- se pregunta que sea distinto de null y tenga foto -->
+          <img
+            *ngIf="cliente?.foto"
+            src="http://localhost:8080/api/uploads/img/{{ cliente.foto }}"
+            alt="{{ cliente.foto }}"
+            class="img-thumbnail rounded"
+          />
+        </div>
       </div>
     </div>
   </div>
