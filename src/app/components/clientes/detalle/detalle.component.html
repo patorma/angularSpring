@@ -23,6 +23,7 @@
             <div class="input-group-append">
               <button
                 (click)="subirFoto()"
+                [disabled]="!fotoSeleccionada"
                 class="btn btn-outline-secondary"
                 type="button"
               >

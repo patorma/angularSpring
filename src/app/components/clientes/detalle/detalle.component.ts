@@ -35,21 +35,38 @@ export class DetalleComponent implements OnInit {
     //files es un arreglo de archivos
     this.fotoSeleccionada = event.target.files[0];
     console.log(this.fotoSeleccionada);
+    // type tipo de archivo
+    // indexOf lo que hace es buscar en el string (cadena) si hay alguna coincidencia con image
+    // si la encuebntra va a retornar la posicion o primera ocurrencia que encuentre
+    // si es menor a cero lo que retorna envia un error
+    if (this.fotoSeleccionada.type.indexOf("image") < 0) {
+      swal.fire(
+        "Error seleccionar imagen:",
+        "El archivo debe ser del tipo imagen",
+        "error"
+      );
+      // reiniciamos la foto seleccionada
+      this.fotoSeleccionada = null;
+    }
   }
 
   subirFoto() {
-    // nos subscribimos al cambio del cliente con su nueva imagen dentro del observador (subscribe)
-    // vamos a subscribir el cambio del cliente con su nueva imagen
-    this.clienteService
-      .subirFoto(this.fotoSeleccionada, this.cliente.id)
-      .subscribe((cliente) => {
-        // como actualizamos el cliente viene con la nueva foto incluida
-        this.cliente = cliente;
-        swal.fire(
-          "La foto se ha subido completamente!",
-          `La foto se ha subido con éxito: ${this.cliente.foto}`,
-          "success"
-        );
-      });
+    if (!this.fotoSeleccionada) {
+      swal.fire("Error Upload:", "Debe seleccionar una foto", "error");
+    } else {
+      // nos subscribimos al cambio del cliente con su nueva imagen dentro del observador (subscribe)
+      // vamos a subscribir el cambio del cliente con su nueva imagen
+      this.clienteService
+        .subirFoto(this.fotoSeleccionada, this.cliente.id)
+        .subscribe((cliente) => {
+          // como actualizamos el cliente viene con la nueva foto incluida
+          this.cliente = cliente;
+          swal.fire(
+            "La foto se ha subido completamente!",
+            `La foto se ha subido con éxito: ${this.cliente.foto}`,
+            "success"
+          );
+        });
+    }
   }
 }
