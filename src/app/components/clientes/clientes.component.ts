@@ -1,88 +1,87 @@
-import { Component, OnInit } from '@angular/core';
-import { Cliente } from './cliente';
-import { ClienteService } from '../../services/cliente.service';
-import {  Router,ActivatedRoute } from '@angular/router';
-import swal from 'sweetalert2';
-import { tap } from 'rxjs/operators';
-
+import { Component, OnInit } from "@angular/core";
+import { Cliente } from "./cliente";
+import { ClienteService } from "../../services/cliente.service";
+import { Router, ActivatedRoute } from "@angular/router";
+import swal from "sweetalert2";
+import { tap } from "rxjs/operators";
 
 @Component({
-  selector: 'app-clientes',
-  templateUrl: './clientes.component.html',
-  styleUrls: ['./clientes.component.css']
+  selector: "app-clientes",
+  templateUrl: "./clientes.component.html",
+  styleUrls: ["./clientes.component.css"],
 })
 export class ClientesComponent implements OnInit {
-
-
   clientes: Cliente[];
   paginador: any;
-
+  clienteSeleccionado: Cliente;
 
   /* Inyección de dependencias*/
-  constructor(private clienteService: ClienteService, private router: Router ,private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private clienteService: ClienteService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-
-   
     // paramMap se encarga de observar entonces se subscribe
     // esto se encarga de subscribirse a un observador
-    this.activatedRoute.paramMap.subscribe( params =>{ // el operador suma convierte el string en number
-      let page: number = +params.get('page');
-      if(!page){
+    this.activatedRoute.paramMap.subscribe((params) => {
+      // el operador suma convierte el string en number
+      let page: number = +params.get("page");
+      if (!page) {
         page = 0;
       }
-   // clientes es un observador va hacer observado por observadores, aca se subscribe , 
-   // y en el metodo subscribe el observador seria asignar el atributo clientes el valor 
-   // que se recibe del clienteservice, que seria el listado de clientes con los cambios
-      this.clienteService.getClientes(page)
-     .pipe(
-        tap(response=> {
-          console.log('ClientesComponent: tap 3');
-          (response.content as Cliente[]).forEach(cliente =>{
-             console.log(cliente.nombre);
-          }); 
-        })         //  response.content lista de objeto clientes y se asigna al atributo cliente
-     ).subscribe(response => {
-       this.clientes = response.content as Cliente[];
-       this.paginador = response;
-      });
-      }
-    );
+      // clientes es un observador va hacer observado por observadores, aca se subscribe ,
+      // y en el metodo subscribe el observador seria asignar el atributo clientes el valor
+      // que se recibe del clienteservice, que seria el listado de clientes con los cambios
+      this.clienteService
+        .getClientes(page)
+        .pipe(
+          tap((response) => {
+            console.log("ClientesComponent: tap 3");
+            (response.content as Cliente[]).forEach((cliente) => {
+              console.log(cliente.nombre);
+            });
+          }) //  response.content lista de objeto clientes y se asigna al atributo cliente
+        )
+        .subscribe((response) => {
+          this.clientes = response.content as Cliente[];
+          this.paginador = response;
+        });
+    });
   }
 
   public delete(cliente: Cliente): void {
-
     const swalWithBootstrapButtons = swal.mixin({
       customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger'
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
       },
-      buttonsStyling: false
-    })
-    
-    swalWithBootstrapButtons.fire({
-      title: 'Está seguro?',
-      text: `¿Seguro que desea eliminar al cliente ${cliente.nombre} ${cliente.apellido}?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Si, eliminar!',
-      cancelButtonText: 'No, cancelar!',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-        this.clienteService.delete(cliente.id).subscribe(
-          response =>{
-            this.clientes = this.clientes.filter(cli =>cli !== cliente)
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: "Está seguro?",
+        text: `¿Seguro que desea eliminar al cliente ${cliente.nombre} ${cliente.apellido}?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Si, eliminar!",
+        cancelButtonText: "No, cancelar!",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.value) {
+          this.clienteService.delete(cliente.id).subscribe((response) => {
+            this.clientes = this.clientes.filter((cli) => cli !== cliente);
             swalWithBootstrapButtons.fire(
-              'Cliente eliminado!',
+              "Cliente eliminado!",
               `Cliente ${cliente.nombre} eliminado con éxito.`,
-              'success'
-            )
-          }
-        )
-       
-      } 
-    })
+              "success"
+            );
+          });
+        }
+      });
     /*this.activatedRoute.params.subscribe(params =>{
       let id = params['id']
       if(id){
@@ -100,5 +99,8 @@ export class ClientesComponent implements OnInit {
 
     )*/
   }
-
+  // aca toma el cliente al cual hicimos click y se lo vamos asignar al atributo clienteSeleccionado
+  abrirModal(cliente: Cliente) {
+    this.clienteSeleccionado = cliente;
+  }
 }

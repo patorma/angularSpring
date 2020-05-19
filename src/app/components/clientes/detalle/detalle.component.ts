@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { Cliente } from "../cliente";
 import { ClienteService } from "../../../services/cliente.service";
 import { ActivatedRoute } from "@angular/router";
@@ -11,7 +11,8 @@ import { HttpEventType } from "@angular/common/http";
   styleUrls: ["./detalle.component.css"],
 })
 export class DetalleComponent implements OnInit {
-  cliente: Cliente;
+  // Estamos colocando la instacia de cliente en detalles component
+  @Input() cliente: Cliente;
   titulo: string = "Detalle del cliente";
   private fotoSeleccionada: File;
   // Atributo de progreso
@@ -23,15 +24,16 @@ export class DetalleComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((params) => {
-      // con el signo + volvemos el String id a un number
-      let id: number = +params.get("id");
-      if (id) {
-        this.clienteService.getCliente(id).subscribe((cliente) => {
-          this.cliente = cliente;
-        });
-      }
-    });
+    // lo comentamos por que con @Input() no tenemos que ir a buscar el id del cliente
+    // this.activatedRoute.paramMap.subscribe((params) => {
+    //   // con el signo + volvemos el String id a un number
+    //   let id: number = +params.get("id");
+    //   if (id) {
+    //     this.clienteService.getCliente(id).subscribe((cliente) => {
+    //       this.cliente = cliente;
+    //     });
+    //   }
+    // });
   }
   // event va sin $ solo en en html se le agrega a event $
   seleccionarFoto(event) {
