@@ -13,7 +13,7 @@
                             {{ cliente.createAt | date: "fullDate" }}
                         </li>
                     </ul>
-                    <div class="input-group">
+                    <div class="input-group mb-3">
                         <div class="custom-file">
                             <!-- a traves de $event accdemos al archivo que estamos enviando -->
                             <input (change)="seleccionarFoto($event)" type="file" class="custom-file-input" id="inputGroupFile04" />
@@ -29,6 +29,19 @@
               >
                 Subir
               </button>
+            </div>
+          </div>
+          <!-- se tendra nuestra barra de progreso -->
+          <div *ngIf="progreso > 0" class="progress" style="height: 40px;">
+            <div
+              class="progress-bar progress-bar-striped"
+              role="progressbar"
+              [ngStyle]="{ width: progreso + '%' }"
+              attr.aria-valuenow="{{ progreso }}"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              {{ progreso }}%
             </div>
           </div>
         </div>

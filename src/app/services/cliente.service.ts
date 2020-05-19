@@ -2,7 +2,12 @@ import { Injectable, LOCALE_ID, Inject } from "@angular/core";
 import { CLIENTES } from "../components/clientes/clientes.json";
 import { Cliente } from "../components/clientes/cliente";
 import { Observable, of, throwError } from "rxjs";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpRequest,
+  HttpEvent,
+} from "@angular/common/http";
 import { map, catchError, tap } from "rxjs/operators";
 import swal from "sweetalert2";
 import { Router } from "@angular/router";
@@ -121,20 +126,23 @@ export class ClienteService {
   }
   // Agregar metodo para subir foto
   // se tiene que retornar un observable de cliente
-  subirFoto(archivo: File, id): Observable<Cliente> {
+  subirFoto(archivo: File, id): Observable<HttpEvent<{}>> {
     let formData = new FormData();
     // el primer parametro debe tener el mismo nombre que le pusimos en el backend-end:
     //@RequestParam("archivo")
     formData.append("archivo", archivo);
     formData.append("id", id);
-    // debemos convertir a un observable con pipe
-    return this.http.post(`${this.urlEndPoint}/upload`, formData).pipe(
-      map((response: any) => response.cliente as Cliente),
-      catchError((e) => {
-        console.error(e.error.mensaje);
-        swal.fire(e.error.mensaje, e.error.error, "error");
-        return throwError(e);
-      })
+
+    //Añadir barra de progerso
+    const req = new HttpRequest(
+      "POST",
+      `${this.urlEndPoint}/upload`,
+      formData,
+      {
+        reportProgress: true,
+      }
     );
+    // debemos convertir a un observable con pipe
+    return this.http.request(req);
   }
 }
