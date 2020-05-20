@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { Cliente } from "./cliente";
+
+// Servivios
 import { ClienteService } from "../../services/cliente.service";
+import { ModalService } from "../../services/modal.service";
+
 import { Router, ActivatedRoute } from "@angular/router";
 import swal from "sweetalert2";
 import { tap } from "rxjs/operators";
@@ -18,7 +22,7 @@ export class ClientesComponent implements OnInit {
   /* Inyección de dependencias*/
   constructor(
     private clienteService: ClienteService,
-    private router: Router,
+    private modalService: ModalService,
     private activatedRoute: ActivatedRoute
   ) {}
 
@@ -102,5 +106,6 @@ export class ClientesComponent implements OnInit {
   // aca toma el cliente al cual hicimos click y se lo vamos asignar al atributo clienteSeleccionado
   abrirModal(cliente: Cliente) {
     this.clienteSeleccionado = cliente;
+    this.modalService.abrirModal();
   }
 }

@@ -1,7 +1,10 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Cliente } from "../cliente";
+
+// Servicios
 import { ClienteService } from "../../../services/cliente.service";
-import { ActivatedRoute } from "@angular/router";
+import { ModalService } from "../../../services/modal.service";
+
 import swal from "sweetalert2";
 import { HttpEventType } from "@angular/common/http";
 
@@ -20,7 +23,7 @@ export class DetalleComponent implements OnInit {
   // inyectamos el cliente service en el constructor
   constructor(
     private clienteService: ClienteService,
-    private activatedRoute: ActivatedRoute
+    private modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -90,5 +93,10 @@ export class DetalleComponent implements OnInit {
           // this.cliente = cliente;
         });
     }
+  }
+  cerrarModal() {
+    this.modalService.cerrarModal();
+    this.fotoSeleccionada = null;
+    this.progreso = 0;
   }
 }
