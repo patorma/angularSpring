@@ -83,6 +83,10 @@ export class DetalleComponent implements OnInit {
             // tomamos el body de la respuesta o response y lo pasamos a una variable
             let response: any = event.body;
             this.cliente = response.cliente as Cliente;
+
+            // se manda al cliente ya actualizado con la foto nueva
+            this.modalService.notificarUpload.emit(this.cliente);
+
             swal.fire(
               "La foto se ha subido completamente!",
               response.mensaje,

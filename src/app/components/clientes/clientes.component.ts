@@ -53,6 +53,18 @@ export class ClientesComponent implements OnInit {
           this.paginador = response;
         });
     });
+
+    this.modalService.notificarUpload.subscribe((cliente) => {
+      // se pregunta si el cliente id de la lista es igual al cliente id que se esta emitiendo
+      // recibimos el cliente original y lo transformamos cada uno el map retorna los clientes modificados
+      this.clientes = this.clientes.map((clienteOriginal) => {
+        if (cliente.id === clienteOriginal.id) {
+          // al cliente original le pasamos la foto actualizada
+          clienteOriginal.foto = cliente.foto;
+        }
+        return clienteOriginal;
+      });
+    });
   }
 
   public delete(cliente: Cliente): void {
