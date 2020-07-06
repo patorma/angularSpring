@@ -41,6 +41,7 @@ export class FormComponent implements OnInit {
   }
 
   public create(): void {
+    console.log(this.cliente);
     this.clienteService.create(this.cliente).subscribe(
       (cliente) => {
         this.router.navigate(["/clientes"]);
@@ -63,6 +64,7 @@ export class FormComponent implements OnInit {
   }
 
   update(): void {
+    console.log(this.cliente);
     this.clienteService.update(this.cliente).subscribe(
       (response) => {
         this.router.navigate(["/clientes"]);
@@ -82,5 +84,17 @@ export class FormComponent implements OnInit {
         console.error(err.error.errors);
       }
     );
+  }
+  // el primer objeto corresponde a cada una de las regiones del ngFor de la iteracion
+  // el segundo objeto es el objeto asignado al cliente  y ahi hay que compara
+  compararRegion(o1: Region, o2: Region): boolean {
+    // se compara el objeto 1 y el objeto 2
+    // si es undefined se deja marcado el seleccionar con un mensaje
+    if (o1 === undefined && o2 === undefined) {
+      return true;
+    }
+    return o1 === null || o2 === null || o1 === undefined || o2 === undefined
+      ? false
+      : o1.id === o2.id;
   }
 }
