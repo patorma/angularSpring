@@ -1,5 +1,4 @@
 import { Injectable, LOCALE_ID, Inject } from "@angular/core";
-import { CLIENTES } from "../components/clientes/clientes.json";
 import { Cliente } from "../components/clientes/cliente";
 import { Observable, of, throwError } from "rxjs";
 import {
@@ -12,6 +11,7 @@ import { map, catchError, tap } from "rxjs/operators";
 import swal from "sweetalert2";
 import { Router } from "@angular/router";
 import { formatDate, DatePipe } from "@angular/common";
+import { Region } from "../components/clientes/region";
 
 @Injectable({
   providedIn: "root",
@@ -26,6 +26,10 @@ export class ClienteService {
     private http: HttpClient,
     private router: Router
   ) {}
+
+  getRegion(): Observable<Region[]> {
+    return this.http.get<Region[]>(this.urlEndPoint + "/regiones");
+  }
 
   getClientes(page: number): Observable<any> {
     /*se hace un cast portque devuelve un observable de cliente*/
