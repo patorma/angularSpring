@@ -1,9 +1,11 @@
-@media print and (max-width:690px) {
-    .panel {
+/* @media print and (max-width:400px) {
+    .tablita {
         table-layout: auto;
     }
-}
-
+} */
+/* .tablita{
+    width: 50%;
+} */
 
 /*.tarjeta {
     width: 700px;
